@@ -1,6 +1,11 @@
 <h1>Central Intelligence Agency</h1>
 
 <form method="post" >
+    {{#if messages.length}}
+        {{#each messages}}
+            <p class="flash">{{this}}</p>
+        {{/each}}
+    {{/if}}
     <h4>Sign In</h4>
     <div class="form-group">
         <label for="username">Agent name</label>

@@ -5,13 +5,16 @@ const passport = require('passport');
 const userModel = require('../models/User');
 
 router.get('/', (req, res) =>{
-    res.render("index");
+    res.render("index", {
+        messages: req.flash('signInMsg')
+    });
 });
 
 router.post('/', passport.authenticate('local', {
-    failureRedirect: '/register',
-    successRedirect:'/dashboard'
-     }
+    failureRedirect: '/',
+    successRedirect:'/dashboard',
+    failureFlash:true
+    }
 ));
 
 module.exports = router;

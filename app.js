@@ -18,16 +18,16 @@ const index = require('./routes/index'),
 
 const User = mongoose.model('Users');
 
-passport.use(new Strategy(
-    function(username, password, cb) {
+passport.use(new Strategy({passReqToCallback:true},
+    function(req, username, password, cb) {
         User.findOne({username:username}, (err, user) =>{
             if(err){
                 console.log("Error looking up db");
-                return cb(err)
+                return cb(err, req.flash("signInMsg", "Sorry an error occured, try again later"));
             }
 
             if(!user){
-                return cb(null, false)
+                return cb(null, false, req.flash("signInMsg", "Agent not found, check in your log in details"))
             }
 
             bcrypt.compare(password, user.password, (err, match) =>{
@@ -40,7 +40,7 @@ passport.use(new Strategy(
                     console.log("Correct details");
                     return cb(null, user)
                 }else{
-                    return cb(null, false)
+                    return cb(null, false, req.flash("signInMsg", "Wrong password"))
                 }
             })
         })
@@ -72,6 +72,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(expressSession({secret: 'georgeben', resave: false, saveUninitialized: false}))
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
 
 app.set("views", path.resolve(__dirname, "views"));
 app.engine("handlebars", exphbs({defaultLayout:'main'}));

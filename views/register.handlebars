@@ -1,4 +1,7 @@
 <form class="reg-form" method="post">
+    {{#if message.length}}
+        <p class="flash">{{message}}</p>
+    {{/if}}
     <h4>Register</h4>
     <div class="form-group">
         <label for="name">Agent name</label>

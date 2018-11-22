@@ -8,11 +8,26 @@ const User = mongoose.model('Users');
 const saltRounds = 10;
 
 router.get('/', (req, res) =>{
-    res.render("register");
+    res.render("register", {
+        message: req.flash('signUpMsg')
+    });
 })
 
 router.post('/', (req, res) =>{
     console.log(req.body.username, req.body.email);
+    User.find({username: req.body.username}, (err, match) =>{
+        if(err){
+            console.log("Error looking up database");
+            req.flash("signUpMsg", "A error occured, try again later");
+            res.redirect('/register');
+        }
+
+        if(match){
+            req.flash('signUpMsg', "Sorry, that name is not available");
+            res.redirect('/register')
+        }
+        
+    })
     bcrypt.hash(req.body.password, saltRounds, (err, hash) =>{
         if(err){
             console.log("Failed to hash");
@@ -26,7 +41,7 @@ router.post('/', (req, res) =>{
 
             user.save()
             .then(data => {
-                if(data) console.log("Sved successfully");
+                if(data) console.log("Saved successfully");
                 res.redirect('/');
             })
             .catch(err => {
