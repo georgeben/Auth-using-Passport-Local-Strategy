@@ -1,0 +1,53 @@
+body{
+    background-color:black;
+}
+
+h1{
+    color: blue;
+    text-align: center;
+    margin-top: 100px;
+}
+form{
+    width: 50%;
+    margin: auto;
+    color: blue;
+    border: 2px solid blue;
+    padding: 20px;
+}
+form p{
+    text-align: center;
+}
+form a{
+    color: green !important;
+}
+
+form input{
+    background-color: black !important;
+    border: 1px solid blue !important;
+    color: blue !important;
+}
+
+form input::placeholder{
+    color: blue !important;
+}
+
+form button{
+    background-color: green;
+    width: 60%;
+    display: block;
+    margin: auto;
+}
+
+.submit{
+    display: block;
+    margin: auto;
+}
+
+.reg-form{
+    margin-top: 120px;;
+}
+
+.missions{
+    text-align: center;
+    color: green;
+}
